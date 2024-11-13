@@ -19,5 +19,5 @@ func HandleEchoUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Something went wrong", http.StatusBadRequest)
 	}
 
-	fmt.Fprintf(w, "this is the email: %s\n", user.Email)
+	fmt.Fprintf(w, "this is the email: %s", user.Email)
 }
