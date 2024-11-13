@@ -3,16 +3,12 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/goschool/crud/routes"
 )
 
-func HandleHelloWorld(w http.ResponseWriter, _ *http.Request) {
-	fmt.Fprintf(w, "Hello world")
-}
-
 func main() {
+	r := routes.SetupRoutes()
 	fmt.Println("Program starting...")
-
-	http.HandleFunc("/", HandleHelloWorld)
-
-	http.ListenAndServe(":8081", nil)
+	http.ListenAndServe(":8081", r)
 }
