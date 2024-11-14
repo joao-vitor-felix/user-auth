@@ -2,10 +2,27 @@ package db
 
 import (
 	"database/sql"
-	// _ "github.com/mattn/go-sqlite3"
+	"os"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func Open() (*sql.DB, error) {
-	//TO DO: IMPLEMENT
-	return nil, nil
+	db, err := sql.Open("sqlite3", ":memory:")
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	sqlFile, err := os.ReadFile("sql/users.sql")
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = db.Exec(string(sqlFile))
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
