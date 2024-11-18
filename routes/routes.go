@@ -5,9 +5,10 @@ import (
 	"github.com/goschool/crud/api"
 )
 
-func SetupRoutes() *chi.Mux {
+func SetupRoutes(userHandler api.UserHandler) *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/", api.HandleHelloWorld)
 	r.Post("/echo", api.HandleEchoUser)
+	r.Post("/register", userHandler.HandlerRegisterUser)
 	return r
 }
