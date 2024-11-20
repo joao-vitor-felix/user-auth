@@ -13,7 +13,6 @@ func Open() (*sql.DB, error) {
 		return nil, err
 	}
 
-	defer db.Close()
 	sqlFile, err := os.ReadFile("sql/users.sql")
 	if err != nil {
 		return nil, err

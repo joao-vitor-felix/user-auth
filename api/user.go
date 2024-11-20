@@ -28,7 +28,7 @@ func (u *UserHandler) HandlerRegisterUser(w http.ResponseWriter, r *http.Request
 
 	user, err := types.NewUser(createUser)
 	if err != nil {
-		http.Error(w, "invalid new user", http.StatusBadRequest)
+		http.Error(w, "Invalid new user", http.StatusBadRequest)
 		return
 	}
 

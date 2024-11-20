@@ -14,6 +14,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer database.Close()
 
 	userStore := db.NewSQLiteUserStore(database)
 	userHandler := api.NewUserHandler(userStore)
