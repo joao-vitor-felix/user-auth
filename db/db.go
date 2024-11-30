@@ -4,11 +4,12 @@ import (
 	"database/sql"
 	"os"
 
+	_ "github.com/mattn/go-sqlite3"
 	_ "modernc.org/sqlite"
 )
 
 func Open() (*sql.DB, error) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open("sqlite3", ":memory:")
 	if err != nil {
 		return nil, err
 	}
