@@ -10,5 +10,6 @@ func SetupRoutes(userHandler api.UserHandler) *chi.Mux {
 	r.Get("/", api.HandleHelloWorld)
 	r.Post("/echo", api.HandleEchoUser)
 	r.Post("/register", userHandler.HandlerRegisterUser)
+	r.Post("/login", userHandler.HandlerLoginUser)
 	return r
 }

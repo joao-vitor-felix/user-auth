@@ -10,6 +10,7 @@ import (
 
 type UserStore interface {
 	CreateUser(ctx context.Context, user *types.User) (*types.User, error)
+	GetUserByEmail(ctx context.Context, email string) (*types.User, error)
 }
 
 type SQLiteUserStore struct {
@@ -35,4 +36,16 @@ func (u *SQLiteUserStore) CreateUser(ctx context.Context, user *types.User) (*ty
 
 	user.ID = userID
 	return user, nil
+}
+
+func (u *SQLiteUserStore) GetUserByEmail(ctx context.Context, email string) (*types.User, error) {
+	query := `SELECT id, email, password_hash FROM users WHERE email = ?`
+	var user types.User
+
+	err := u.db.QueryRowContext(ctx, query, email).Scan(&user.ID, &user.PasswordHash)
+	if err != nil {
+		return nil, fmt.Errorf("GetUserByEmail: %w", err)
+	}
+
+	return &user, nil
 }
