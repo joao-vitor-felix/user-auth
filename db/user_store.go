@@ -42,7 +42,7 @@ func (u *SQLiteUserStore) GetUserByEmail(ctx context.Context, email string) (*ty
 	query := `SELECT id, email, password_hash FROM users WHERE email = ?`
 	var user types.User
 
-	err := u.db.QueryRowContext(ctx, query, email).Scan(&user.ID, &user.PasswordHash)
+	err := u.db.QueryRowContext(ctx, query, email).Scan(&user.ID, &user.Email, &user.PasswordHash)
 	if err != nil {
 		return nil, fmt.Errorf("GetUserByEmail: %w", err)
 	}
