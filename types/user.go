@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -21,7 +22,7 @@ type CreateUser struct {
 }
 
 func NewUser(createUser CreateUser) (*User, error) {
-	hashPassword, err := bcrypt.GenerateFromPassword([]byte(createUser.Password), 10)
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(createUser.Password), 12)
 	if err != nil {
 		return nil, err
 	}
@@ -34,10 +35,10 @@ func NewUser(createUser CreateUser) (*User, error) {
 func ValidatePassword(passwordHash string, password string) bool {
 	return bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(password)) == nil
 }
+
 func CreateToken(user *User) (string, error) {
 	now := time.Now()
 	validUntil := now.Add(time.Hour * 4).Unix()
-
 	claims := jwt.MapClaims{
 		"id":    user.ID,
 		"email": user.Email,
@@ -45,7 +46,7 @@ func CreateToken(user *User) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims, nil)
-	secret := "JWT_SECRET"
+	secret := os.Getenv("JWT_SECRET")
 	tokenStr, err := token.SignedString([]byte(secret))
 
 	if err != nil {
